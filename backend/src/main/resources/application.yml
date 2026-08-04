@@ -1,0 +1,50 @@
+spring:
+  servlet:
+    multipart:
+      # A 50-page lecture PDF is typically 2–10 MB. 25 MB gives headroom for
+      # scan-heavy PDFs while keeping embedding costs bounded per upload.
+      # max-request-size is set slightly above max-file-size to allow for
+      # multipart form overhead (boundary, headers).
+      max-file-size: 25MB
+      max-request-size: 26MB
+  datasource:
+    # DATABASE_URL uses libpq format (postgresql://user:pass@host/db) — used by the Python worker.
+    # The JDBC driver needs credentials split out, so we use separate Spring datasource env vars.
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/course_rag}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+r2:
+  # Local dev: http://localhost:9000 (MinIO). Prod: https://<id>.r2.cloudflarestorage.com
+  endpoint-url: ${R2_ENDPOINT_URL}
+  access-key-id: ${R2_ACCESS_KEY_ID}
+  secret-access-key: ${R2_SECRET_ACCESS_KEY}
+  bucket-name: ${R2_BUCKET_NAME}
+
+openai:
+  api-key: ${OPENAI_API_KEY}
+  embedding-model: text-embedding-3-small
+  chat-model: gpt-4o-mini
+
+chat:
+  rate-limit:
+    # Max chat requests per IP within the window. Each request can trigger
+    # up to ~10 OpenAI calls (8 grading + 1 embedding + 1 generation).
+    max-requests-per-window: 5
+    window-seconds: 60
+
+server:
+  port: ${JAVA_BACKEND_PORT:8080}

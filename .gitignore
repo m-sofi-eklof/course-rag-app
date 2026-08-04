@@ -9,9 +9,10 @@ backend/build/
 *.class
 
 # Python
-worker/__pycache__/
+**/__pycache__/
+**/*.pyc
 worker/.venv/
-worker/*.pyc
+worker/venv/
 worker/.pytest_cache/
 
 # Node / React
