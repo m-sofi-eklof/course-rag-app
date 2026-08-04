@@ -33,4 +33,10 @@ public class CourseController {
     public Course get(@PathVariable UUID id) {
         return courseService.findById(id);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable UUID id) {
+        courseService.delete(id);
+    }
 }
