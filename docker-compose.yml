@@ -1,0 +1,22 @@
+# Local dev only. Production uses Supabase/Neon free tier for Postgres
+# instead of this container (see AGENTS.md budget constraints).
+#
+# Java backend and Python worker services get added here in later phases
+# once there's actual code to containerize — don't add empty service
+# stubs before that.
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: course-rag-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: course_rag
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

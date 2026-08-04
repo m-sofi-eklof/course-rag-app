@@ -1,0 +1,31 @@
+# env
+.env
+.env.local
+
+# Java / Spring Boot
+backend/target/
+backend/.gradle/
+backend/build/
+*.class
+
+# Python
+worker/__pycache__/
+worker/.venv/
+worker/*.pyc
+worker/.pytest_cache/
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Agent tool local state
+.claude/settings.local.json
+
+# Local-only notes, not for the public repo
+docs/pro-ai-workflow.md
